@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import swaggerUI from "swagger-ui-express";
+import swaggerDocument from "../swagger.json";
 import router from "./routes/routes";
 import constants from "./helpers/constants";
 const { OK } = constants.statusCode;
@@ -22,6 +24,7 @@ app.get("/", (req, res) => {
 });
 //port definition
 const port = process.env.PORT || 5000;
+app.use("/apis-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.listen(port, () => {
   console.log(
     `stories Web API listening on port ${port} in ${process.env.NODE_ENV} mode`

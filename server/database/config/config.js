@@ -16,10 +16,18 @@ module.exports = {
     dialect: "postgres",
   },
   production: {
-    username: "root",
-    password: null,
-    database: "database_production",
-    host: "127.0.0.1",
+    // DATABASE_URL: process.env.DATABASE_URL,
+    username: process.env.USERNAME,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
+    host: process.env.HOST,
+    ssl: true,
     dialect: "postgres",
+    dialectOptions: {
+      ssl: {
+        require: true, // This will help you. But you will see nwe error
+        rejectUnauthorized: false, // This line will fix new error
+      },
+    },
   },
 };
