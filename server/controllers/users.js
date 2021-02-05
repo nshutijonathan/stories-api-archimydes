@@ -2,6 +2,7 @@ import models from "../database/models";
 import constants from "../helpers/constants";
 const { OK, BAD_REQUEST, CREATED, CONFLICT, NOT_FOUND } = constants.statusCode;
 const { users } = models;
+
 class UserController {
   static async getUsers(req, res) {
     try {
