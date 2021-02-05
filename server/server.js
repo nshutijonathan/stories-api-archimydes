@@ -12,9 +12,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // app.use(router);
-// app.use(router);
+app.use(router);
 //home route
-
 app.get("/", (req, res) => {
   return res.status(OK).send({
     status: OK,
