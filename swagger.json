@@ -1,0 +1,447 @@
+
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Stories API",
+      "description": "",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "host": "https://stories-api-archimydes.herokuapp.com",
+    "basePath": "",
+    "tags": [
+        {
+            "name":"Welcome",
+            "description":"Home route for stories API"
+        },
+        {
+            "name":"Users",
+            "description":"users API endpoints"
+        },
+      {
+        "name": "Stories",
+        "description": "Stories API endpoints"
+      }
+      
+    ],
+    "schemes": ["https", "http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "paths": {
+        "/":{
+            "get": {
+                "tags": ["Welcome"],
+                "summary": "Stories API Home route",
+                "description": "Home Route",
+                "produces": ["application/json"],
+                "responses": {}
+              }
+        },
+        "/login":{
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "User log in ",
+                "description": "Sign user in the system",
+                "parameters": [{
+                    "name": "user",
+                    "in": "body",
+                    "description": "Sign in the user",
+                    "schema": {
+                        "required": [
+                            "email",
+                            "password"
+                        ],
+                        "properties": {
+                            "email": {
+                                "type": "string"
+                            },
+                            "password": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successfully logged in",
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer"
+                                }
+                                
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Did not provide a required fiels"
+                        
+                    },
+                    "417": {
+                        "description": "Invalid field value"
+                        
+                    },
+                    "401": {
+                        "description": "Email or password incorect"
+                    
+                    }
+                }
+            }
+        },
+        "/signup": {
+            "post": {
+              "tags": [
+                "Users"
+              ],
+              "summary": "Signup a new user",
+              "description": "Create a new user",
+              "parameters": [
+                {
+                  "name": "user",
+                  "in": "body",
+                  "description": "user that we want to create",
+                  "schema": {
+                    "$ref": "#/definitions/users"
+                  }
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "201": {
+                    "description": "success: successfully created"
+                  },
+                  "400": {
+                    "description": "Error: invalid input"
+                  },
+                  "405": {
+                    "description": "Error: Method not allowed"
+                  },
+                  "500": {
+                    "description": "Server Error"
+                  }
+              }
+            }
+          },
+          "/users": {
+              "get":{
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all users",
+                "description": "Get all system users",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters":[
+                    {"name":"x-auth-token",
+                        "in":"header",
+                        "description" :"The user token",
+                        "required":true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "users fetched successfully",
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer"
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+              }
+                
+            
+        },
+        "/users/{id}":{
+            "parameters": [{
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "description": " id of the user",
+                "type": "string"
+            },
+            
+            {"name":"x-auth-token",
+                "in":"header",
+                "description" :"The user token",
+                "required":true
+            }
+            
+        ],
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get a single user by id",
+                "description": "Get a single user",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`user fetched succcessfully",
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer"
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+            },
+            "delete":
+            {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete a single user by id",
+                "description": "Delete a single user",
+                "produces": [
+                    "application/json"
+                ],
+                
+                "responses": {
+                    "200": {
+                        "description": "`user deleted succcessfully",
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer"
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+            },
+            "put":{
+                "parameters":[
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "user that we want to update",
+                        "schema": {
+                          "$ref": "#/definitions/users"
+                        }
+                      }
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update a single user by id",
+                "description": "Update a single user",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`Update  succcessfully updated",
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer"
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/me":{
+            "parameters": [{"name":"x-auth-token",
+                "in":"header",
+                "description" :"The user token",
+                "required":true
+            }],
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get current logged in user",
+                "description": "Get a current logged in user",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`user fetched succcessfully",
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer"
+                                }
+                                
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/stories":{
+            "post":{
+              "tags": [
+                "Stories"
+              ],
+              "summary": "Create  a new Stories",
+              "description": "New Stories",
+              "parameters": [
+                {
+                  "name": "story",
+                  "in": "body",
+                  "description": "story that we want to create",
+                  "schema": {
+                    "$ref": "#/definitions/stories"
+                  }
+                },
+                {"name":"x-auth-token",
+                    "in":"header",
+                    "description" :"The user token",
+                    "required":true
+                }
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "responses": {
+                "201": {
+                    "description": "success: successfully created"
+                  },
+                  "400": {
+                    "description": "Error: invalid input"
+                  },
+                  "405": {
+                    "description": "Error: Method not allowed"
+                  },
+                  "500": {
+                    "description": "Server Error"
+                  }
+              }
+            },
+            "get": {
+                "tags": ["Stories"],
+                "summary": "fetch all Stories",
+                "description": "All Stories",
+                "produces": ["application/json"],
+                "responses": {},
+                "parameters":[{
+                  "name":"x-auth-token",
+                      "in":"header",
+                      "description" :"The user token",
+                      "required":true
+                  
+                }]
+      
+              }
+        },
+      "/stories/{id}": {
+        "get": {
+          "tags": ["Stories"],
+          "summary": "fetch single story",
+          "description": "fetch single story",
+          "produces": ["application/json"],
+          "responses": {},
+          "parameters":[
+            {"name": "id",
+            "in": "path",
+            "required": true,
+            "description": " id of the account",
+            "type": "string"},
+              {
+            "name":"x-auth-token",
+                "in":"header",
+                "description" :"The user token",
+                "required":true
+            
+          }]
+        }
+      }
+      
+      
+      
+    },
+    "definitions": {
+        "users": {
+          "required": [
+              
+              "firstname",
+              "lastname",
+              "email",
+              "password"
+              
+          ],
+          "type": "object",
+          "properties": {
+            "firstname": {
+              "type": "string"
+            },
+            "lastname":{
+                "type":"string"
+            },
+            "firstName": {
+              "type": "string"
+            },
+            
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        },
+        "stories":{
+            "required": [
+                "summary",
+                "description",
+                "type",
+                "complexity",
+                "timeEstimation",
+                "cost",
+                "status"
+            ],
+            "type": "object",
+            "properties":{
+                "summary":{
+                    "type":"string"
+                },
+                "description":{
+                    "type":"string"
+                },
+                "type":{
+                    "type":"string"
+                },
+                "complexity":{
+                    "type":"string"
+                },
+                "timeEstimation":{
+                    "type":"string"
+                },
+                "cost":{
+                    "type":"string"
+                },
+                "status":{
+                    "type":"string"
+                }
+            }
+
+        }
+    }
+
+  }

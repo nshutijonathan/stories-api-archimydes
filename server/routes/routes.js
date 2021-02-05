@@ -20,5 +20,13 @@ router.delete(
 );
 router.put("/api/v1/users/:id", [auth, admin], UserController.updateSingleUser);
 //stories endpoints
-router.get("/api/v1/stories", StoriesController.getStories);
+router.get("/api/v1/mine/stories", [auth], StoriesController.getMyStories);
+router.get("/api/v1/stories", [auth, admin], StoriesController.getStories);
+router.get("/api/v1/stories/:id", [auth], StoriesController.getSingleStory);
+router.post("/api/v1/stories", [auth], StoriesController.addStory);
+router.put(
+  "/api/v1/stories/:id",
+  [auth, admin],
+  StoriesController.updateSingleStory
+);
 export default router;
